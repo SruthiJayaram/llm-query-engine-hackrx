@@ -1,9 +1,11 @@
 fastapi
 uvicorn
-openai
 requests
 python-dotenv
 PyMuPDF
 tqdm
 faiss-cpu
 numpy
+transformers
+torch
+sentence-transformers

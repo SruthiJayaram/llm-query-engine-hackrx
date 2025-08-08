@@ -1,14 +1,24 @@
 import fitz  # PyMuPDF
 import requests
-from openai import OpenAI
 import faiss
 import numpy as np
 from dotenv import load_dotenv
 import os
 import tempfile
+from sentence_transformers import SentenceTransformer
+import json
 
 load_dotenv()
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
+# Initialize the embedding model (free, runs locally)
+embedding_model = None
+
+def get_embedding_model():
+    global embedding_model
+    if embedding_model is None:
+        print("Loading embedding model...")
+        embedding_model = SentenceTransformer('all-MiniLM-L6-v2')
+    return embedding_model
 
 def download_pdf(url):
     """Download PDF from URL and save to temp file"""
@@ -44,29 +54,16 @@ def split_text(text, max_length=500):
     return chunks
 
 def embed_chunks(chunks):
-    """Create embeddings for text chunks using OpenAI"""
-    embeddings = []
-    batch_size = 20
-    
-    for i in range(0, len(chunks), batch_size):
-        batch = chunks[i:i+batch_size]
-        response = client.embeddings.create(
-            input=batch,
-            model="text-embedding-3-small"
-        )
-        for embedding in response.data:
-            embeddings.append(np.array(embedding.embedding, dtype='float32'))
-    
-    return np.vstack(embeddings)
+    """Create embeddings for text chunks using local model"""
+    model = get_embedding_model()
+    embeddings = model.encode(chunks, convert_to_tensor=False)
+    return np.array(embeddings, dtype='float32')
 
 def get_top_chunks(query, chunks, chunk_vectors, k=3):
     """Find top-k most similar chunks to the query"""
-    # Get query embedding
-    response = client.embeddings.create(
-        input=query,
-        model="text-embedding-3-small"
-    )
-    query_vector = np.array(response.data[0].embedding, dtype='float32')
+    model = get_embedding_model()
+    query_vector = model.encode([query], convert_to_tensor=False)[0]
+    query_vector = np.array(query_vector, dtype='float32')
     
     # Create FAISS index
     dimension = len(query_vector)
@@ -79,21 +76,55 @@ def get_top_chunks(query, chunks, chunk_vectors, k=3):
     return [chunks[i] for i in indices[0]]
 
 def ask_llm(question, context):
-    """Ask LLM to answer question based on context"""
-    prompt = f"""Answer the question based on the following context. Be concise and accurate.
-
-Context:
-{context}
-
-Question: {question}
-
-Answer:"""
+    """Ask LLM to answer question based on context using Hugging Face API"""
+    # Use Hugging Face's free inference API
+    API_URL = "https://api-inference.huggingface.co/models/microsoft/DialoGPT-medium"
     
-    response = client.chat.completions.create(
-        model="gpt-3.5-turbo",
-        messages=[{"role": "user", "content": prompt}],
-        temperature=0.2,
-        max_tokens=500
-    )
+    prompt = f"Context: {context}\n\nQuestion: {question}\nAnswer:"
     
-    return response.choices[0].message.content.strip()
+    # Truncate if too long
+    if len(prompt) > 1000:
+        prompt = prompt[:1000] + "..."
+    
+    try:
+        response = requests.post(
+            API_URL,
+            headers={"Content-Type": "application/json"},
+            json={"inputs": prompt, "parameters": {"max_length": 200, "temperature": 0.7}},
+            timeout=30
+        )
+        
+        if response.status_code == 200:
+            result = response.json()
+            if isinstance(result, list) and len(result) > 0:
+                answer = result[0].get('generated_text', '').replace(prompt, '').strip()
+                if answer:
+                    return answer
+        
+        # Fallback to simple text processing if API fails
+        return extract_answer_from_context(question, context)
+    
+    except Exception as e:
+        print(f"LLM API error: {e}")
+        return extract_answer_from_context(question, context)
+
+def extract_answer_from_context(question, context):
+    """Simple fallback method to extract answers from context"""
+    # Simple keyword-based answer extraction
+    sentences = context.split('.')
+    question_lower = question.lower()
+    
+    # Look for sentences containing question keywords
+    keywords = [word.lower() for word in question.split() if len(word) > 3]
+    
+    best_sentence = ""
+    max_matches = 0
+    
+    for sentence in sentences:
+        sentence_lower = sentence.lower()
+        matches = sum(1 for keyword in keywords if keyword in sentence_lower)
+        if matches > max_matches:
+            max_matches = matches
+            best_sentence = sentence.strip()
+    
+    return best_sentence if best_sentence else "Answer not found in the provided context."
