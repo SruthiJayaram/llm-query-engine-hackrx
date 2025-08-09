@@ -7,7 +7,7 @@ from concurrent.futures import ThreadPoolExecutor
 import asyncio
 
 # Import optimized functions
-from utils_optimized import (
+from utils import (
     download_pdf, extract_text_from_pdf, split_text, 
     embed_chunks, get_top_chunks, ask_llm_optimized
 )
