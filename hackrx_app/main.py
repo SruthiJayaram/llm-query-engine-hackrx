@@ -9,7 +9,7 @@ import asyncio
 # Import optimized functions
 from utils import (
     download_pdf, extract_text_from_pdf, split_text, 
-    embed_chunks, get_top_chunks, ask_llm_optimized
+    embed_chunks, get_top_chunks, ask_llm_optimized, process_document_input
 )
 
 # Configure logging
@@ -23,7 +23,7 @@ app = FastAPI(
 )
 
 class QueryRequest(BaseModel):
-    documents: str
+    documents: str  # Can be either a PDF URL or direct text content
     questions: list[str]
 
 @app.get("/")
@@ -38,6 +38,7 @@ async def health_check():
 async def run_submission(req: QueryRequest, authorization: str = Header(None)):
     """
     Optimized endpoint for processing document questions
+    Accepts either PDF URLs or direct text content in the documents field
     """
     start_time = time.time()
     
@@ -55,17 +56,16 @@ async def run_submission(req: QueryRequest, authorization: str = Header(None)):
         
         logger.info(f"Processing {len(req.questions)} questions - Start")
         
-        # Step 1: Download and extract text (parallel processing where possible)
+        # Step 1: Process document input (handles both PDF URLs and text content)
         try:
-            pdf_path = download_pdf(req.documents)
-            full_text = extract_text_from_pdf(pdf_path)
-            logger.info(f"PDF processed - {len(full_text)} characters extracted")
+            full_text = process_document_input(req.documents)
+            logger.info(f"Document processed - {len(full_text)} characters extracted")
         except Exception as e:
-            logger.error(f"PDF processing failed: {e}")
-            raise HTTPException(status_code=400, detail=f"Failed to process PDF: {str(e)}")
+            logger.error(f"Document processing failed: {e}")
+            raise HTTPException(status_code=400, detail=f"Failed to process document: {str(e)}")
         
         if not full_text.strip():
-            raise HTTPException(status_code=400, detail="No text found in PDF")
+            raise HTTPException(status_code=400, detail="No text found in document")
         
         # Step 2: Split and embed text
         chunks = split_text(full_text)

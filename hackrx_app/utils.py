@@ -38,6 +38,35 @@ def download_pdf(url):
     except Exception as e:
         raise Exception(f"Failed to download PDF: {str(e)}")
 
+def process_document_input(document_input):
+    """
+    Process document input - handle both PDF URLs and direct text content
+    Returns the extracted text
+    """
+    try:
+        # Check if input looks like a URL
+        if (document_input.startswith('http://') or 
+            document_input.startswith('https://') or 
+            document_input.endswith('.pdf')):
+            # Treat as PDF URL
+            pdf_path = download_pdf(document_input)
+            text = extract_text_from_pdf(pdf_path)
+            # Clean up temp file
+            try:
+                os.unlink(pdf_path)
+            except:
+                pass
+            return text
+        else:
+            # Treat as direct text content
+            return document_input
+    except Exception as e:
+        # If URL processing fails, try treating as text content
+        if len(document_input) > 200:  # Likely text content
+            return document_input
+        else:
+            raise Exception(f"Failed to process document: {str(e)}")
+
 def extract_text_from_pdf(pdf_path):
     """Extract text from PDF file efficiently"""
     try:
