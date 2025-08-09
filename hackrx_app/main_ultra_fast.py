@@ -56,7 +56,7 @@ async def run_submission(req: QueryRequest, authorization: str = Header(None)):
         # Limit questions for speed
         questions = req.questions[:5]  # Max 5 questions
         
-        logger.warning(f"Processing {len(questions)} questions with ultra-fast pipeline")
+        logger.info(f"Processing {len(questions)} questions with ultra-fast pipeline")
         
         # Process document with aggressive optimizations
         document_text = process_document_input_fast(req.documents)
@@ -127,7 +127,7 @@ async def startup_event():
         model = get_embedding_model()
         # Test embedding to warm up
         model.encode(["test sentence for warmup"], show_progress_bar=False)
-        logger.warning("Ultra-fast model warmed up successfully")
+        logger.info("Ultra-fast model warmed up successfully")
     except Exception as e:
         logger.warning(f"Model warmup failed: {e}")
 
