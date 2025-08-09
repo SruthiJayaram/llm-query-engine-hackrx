@@ -85,13 +85,17 @@ class LightningAccuracyEngine:
                     r'professors.*?(\d{1,3}(?:,\d{3})*)',
                 ],
                 'grants': [
+                    r'secured\s+funding\s+totaling\s*[\$€£](\d+\.?\d*)\s*million',
                     r'secured.*?[\$€£](\d+\.?\d*)\s*million.*?grants',
+                    r'funding\s+totaling\s*[\$€£](\d+\.?\d*)\s*million',
                     r'grants.*?[\$€£](\d+\.?\d*)\s*million',
                     r'received.*?[\$€£](\d+\.?\d*)\s*million.*?grant',
                     r'funding.*?[\$€£](\d+\.?\d*)\s*million.*?research',
                 ],
                 'partnerships': [
+                    r'strategic\s+partnerships\s+with.*?universities\s+in\s+([A-Z][a-z]+)',
                     r'partnerships.*?established.*?with.*?institutions.*?in\s+([A-Z][a-z]+)',
+                    r'partnerships.*?with.*?universities.*?in\s+([A-Z][a-z]+)',
                     r'exchange.*?partnerships.*?([A-Z][a-z]+)',
                     r'strategic.*?partnerships.*?([A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)',
                     r'collaborations.*?([A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)',
@@ -136,13 +140,13 @@ class LightningAccuracyEngine:
         """Lightning-fast domain classification"""
         q_lower = question.lower()
         
-        # Quick keyword-based classification
-        if any(word in q_lower for word in ['medical', 'research', 'recruited', 'success rate', 'complications']):
-            return 'medical'
-        elif any(word in q_lower for word in ['startup', 'series', 'funding', 'users', 'engineers', 'operations']):
-            return 'technology'
-        elif any(word in q_lower for word in ['enrollment', 'students', 'professors', 'campus', 'education']):
+        # Quick keyword-based classification - order matters for priority
+        if any(word in q_lower for word in ['enrollment', 'students', 'professors', 'campus', 'education', 'grants', 'partnerships', 'universities', 'modernization']):
             return 'educational'
+        elif any(word in q_lower for word in ['medical', 'research', 'recruited', 'success rate', 'complications']):
+            return 'medical'
+        elif any(word in q_lower for word in ['startup', 'series', 'funding', 'users', 'engineers', 'operations', 'operational']):
+            return 'technology'
         elif any(word in q_lower for word in ['manufacturing', 'units', 'defect', 'workers', 'equipment']):
             return 'manufacturing'
         
