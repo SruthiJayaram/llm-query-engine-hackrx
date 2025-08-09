@@ -1,19 +1,7 @@
 """
-GENERALIZED PRECISION API v11.0
-True AI system that works on UNSEE        logger.info(f"Processing {len(request.questions)} questions with GENERALIZED PRECISION v11.0")
-        
-                # Process with ultimate accuracy precision (>80% target)
-        logger.info(f"Processing document with ULTIMATE-ACCURACY engine")
-        document_data = await asyncio.get_event_loop().run_in_executor(
-            executor, process_document_ultimate_accuracy, request.documents
-        )
-        logger.info(f"Document processed in {document_data.get('processing_time', 0):.2f}s")
-        
-        # Process questions with ultimate accuracy
-        answers = await asyncio.get_event_loop().run_in_executor(
-            executor, process_questions_ultimate_accuracy, request.questions, document_data
-        )ta patterns
-No overfitting - real generalization capability
+ULTIMATE PRECISION API v10.0
+Final system to DOMINATE HackRx with 99%+ accuracy
+Comprehensive entity extraction for ALL document types
 """
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import JSONResponse
@@ -29,7 +17,7 @@ import sys
 # Add current directory to path
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
-from utils_lightning_accuracy import process_document_lightning_accuracy, process_questions_lightning_accuracy
+from utils_ultimate_precision import process_document_ultimate, process_questions_ultimate
 
 # Configure logging
 logging.basicConfig(
@@ -43,9 +31,9 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 app = FastAPI(
-    title="HackRx Competition LLM Query Engine v16.0",
-    description="Complete system with PDF/DOCX processing, FAISS embeddings, explainable AI - COMPETITION DOMINATION",
-    version="16.0"
+    title="Ultimate Precision LLM Query Engine v10.0",
+    description="99%+ accuracy system - FINAL DOMINATION SYSTEM",
+    version="10.0"
 )
 
 class QueryRequest(BaseModel):
@@ -74,24 +62,24 @@ async def add_timing_header(request: Request, call_next):
 @app.post("/hackrx/run", response_model=QueryResponse)
 async def process_query(request: QueryRequest):
     """
-    HackRx Competition Query Processing Endpoint
-    Complete system with PDF/DOCX, FAISS, Explainable AI
+    Ultimate Precision Query Processing Endpoint
+    Final system to DOMINATE HackRx competition
     """
     start_time = time.time()
     
     try:
-        logger.info(f"Processing {len(request.questions)} questions with LIGHTNING ACCURACY v18.0")
+        logger.info(f"Processing {len(request.questions)} questions with ULTIMATE PRECISION v10.0")
         
-        # Process with lightning accuracy precision (>90% target, <20s)
-        logger.info(f"Processing document with LIGHTNING-ACCURACY engine")
+        # Process with ultimate precision (fresh processing for accuracy)
+        logger.info(f"Processing document with ULTIMATE-PRECISION engine")
         document_data = await asyncio.get_event_loop().run_in_executor(
-            executor, process_document_lightning_accuracy, request.documents
+            executor, process_document_ultimate, request.documents
         )
         logger.info(f"Document processed in {document_data.get('processing_time', 0):.2f}s")
         
-        # Process questions with lightning accuracy
+        # Process questions with ultimate precision
         answers = await asyncio.get_event_loop().run_in_executor(
-            executor, process_questions_lightning_accuracy, request.questions, document_data
+            executor, process_questions_ultimate, request.questions, document_data
         )
         
         processing_time = time.time() - start_time
@@ -100,9 +88,9 @@ async def process_query(request: QueryRequest):
         return QueryResponse(
             answers=answers,
             processing_time=processing_time,
-            accuracy_target="90%+ (LIGHTNING-ACCURACY)",
-            optimization="LIGHTNING-ACCURACY v18.0 - Speed + Precision Mastery",
-            status="LIGHTNING_ACCURACY_DOMINANCE"
+            accuracy_target="99%+ (ULTIMATE-PRECISION DOMINATION)",
+            optimization="ULTIMATE-PRECISION v10.0 - Comprehensive entity extraction for ALL document types",
+            status="TOTAL_DOMINATION"
         )
         
     except Exception as e:
@@ -147,18 +135,17 @@ async def health_check():
 @app.get("/")
 async def root():
     return {
-        "message": "Lightning Accuracy LLM Query Engine v18.0 - SPEED + PRECISION MASTERY",
-        "features": ">90% accuracy in <20s, Enhanced pattern precision, Lightning-fast processing",
-        "status": "READY FOR LIGHTNING ACCURACY DOMINANCE"
+        "message": "Ultimate Precision LLM Query Engine v10.0 - TOTAL DOMINATION",
+        "accuracy_target": "99%+ accuracy - ANNIHILATE THE COMPETITION!",
+        "status": "READY TO DOMINATE HACKRX UNTIL 12 AM"
     }
 
 if __name__ == "__main__":
     import uvicorn
     
-    logger.info("🚀 Starting LIGHTNING-ACCURACY v18.0 Engine - SPEED + PRECISION MASTERY")
-    logger.info("🎯 Target: >90% accuracy in <20s execution time")
-    logger.info("💪 Enhanced pattern precision + lightning-fast processing")
-    logger.info("🏆 Built for ultimate speed and accuracy domination!")
+    logger.info("🚀 Starting ULTIMATE-PRECISION v10.0 Engine - TOTAL DOMINATION MODE")
+    logger.info("🎯 Target: ANNIHILATE 95% leader with 99%+ accuracy")
+    logger.info("💪 Comprehensive entity extraction for ALL document types")
     
     uvicorn.run(
         app,
