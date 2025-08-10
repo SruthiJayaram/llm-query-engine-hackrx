@@ -1,0 +1,159 @@
+[
+  {
+    "question": "What is the grace period for premium payment under the National Parivar Mediclaim Plus Policy?",
+    "answer": "A grace period of thirty days is provided for premium payment after the due date to renew or continue the policy without losing continuity benefits.",
+    "processing_time": 3.7174887657165527,
+    "api_processing_time": 3.271853446960449,
+    "keywords_found": [
+      "grace period",
+      "thirty days",
+      "premium payment",
+      "due date"
+    ],
+    "keywords_missing": [],
+    "success": true,
+    "status_code": 200
+  },
+  {
+    "question": "What is the waiting period for maternity coverage?",
+    "answer": "Yes, the policy covers maternity expenses, including childbirth and lawful medical termination of pregnancy. To be eligible, the female insured person must have been continuously covered for at least 24 months. The benefit is limited to two deliveries or terminations during the policy period.",
+    "processing_time": 3.705105781555176,
+    "api_processing_time": 3.41070556640625,
+    "keywords_found": [
+      "maternity",
+      "24 months",
+      "continuously covered",
+      "deliveries"
+    ],
+    "keywords_missing": [],
+    "success": true,
+    "status_code": 200
+  },
+  {
+    "question": "What is the maximum sum insured per individual under the National Parivar Mediclaim Plus Policy?",
+    "answer": "The maximum Sum Insured available under the National Parivar Mediclaim Plus Policy varies by plan and can be selected as per individual requirements, subject to the terms and conditions of the policy.",
+    "processing_time": 3.5037131309509277,
+    "api_processing_time": 3.180485725402832,
+    "keywords_found": [
+      "maximum",
+      "sum insured",
+      "plan",
+      "individual requirements"
+    ],
+    "keywords_missing": [],
+    "success": true,
+    "status_code": 200
+  },
+  {
+    "question": "What benefits are covered for organ donor expenses?",
+    "answer": "Yes, the policy indemnifies the medical expenses for the organ donor's hospitalization for the purpose of harvesting the organ, provided the organ is for an insured person and the donation complies with the Transplantation of Human Organs Act, 1994.",
+    "processing_time": 3.810692310333252,
+    "api_processing_time": 3.4207818508148193,
+    "keywords_found": [
+      "organ donor",
+      "medical expenses",
+      "harvesting",
+      "Transplantation of Human Organs Act"
+    ],
+    "keywords_missing": [],
+    "success": true,
+    "status_code": 200
+  },
+  {
+    "question": "What is the No Claim Discount benefit?",
+    "answer": "A No Claim Discount of 5% on the base premium is offered on renewal for a one-year policy term if no claims were made in the preceding year. The maximum aggregate NCD is capped at 5% of the total base premium.",
+    "processing_time": 3.7958855628967285,
+    "api_processing_time": 3.4189956188201904,
+    "keywords_found": [
+      "No Claim Discount",
+      "5%",
+      "base premium",
+      "renewal",
+      "no claims"
+    ],
+    "keywords_missing": [],
+    "success": true,
+    "status_code": 200
+  },
+  {
+    "question": "What is the extent of coverage for AYUSH treatment?",
+    "answer": "The policy covers medical expenses for inpatient treatment under Ayurveda, Yoga, Naturopathy, Unani, Siddha, and Homeopathy systems up to the Sum Insured limit, provided the treatment is taken in an AYUSH Hospital.",
+    "processing_time": 3.799795389175415,
+    "api_processing_time": 3.5027170181274414,
+    "keywords_found": [
+      "AYUSH",
+      "Ayurveda",
+      "Yoga",
+      "Naturopathy",
+      "inpatient treatment"
+    ],
+    "keywords_missing": [],
+    "success": true,
+    "status_code": 200
+  },
+  {
+    "question": "How is a hospital defined under this policy?",
+    "answer": "A hospital is defined as an institution with at least 10 inpatient beds (in towns with a population below ten lakhs) or 15 beds (in all other places), with qualified nursing staff and medical practitioners available 24/7, a fully equipped operation theatre, and which maintains daily records of patients.",
+    "processing_time": 4.192753791809082,
+    "api_processing_time": 3.814779758453369,
+    "keywords_found": [
+      "hospital",
+      "inpatient beds",
+      "10",
+      "15",
+      "nursing staff",
+      "operation theatre"
+    ],
+    "keywords_missing": [],
+    "success": true,
+    "status_code": 200
+  },
+  {
+    "question": "What are the room rent sub-limits for Plan A?",
+    "answer": "According to the document: 18",
+    "processing_time": 3.788304090499878,
+    "api_processing_time": 3.505385160446167,
+    "keywords_found": [],
+    "keywords_missing": [
+      "room rent",
+      "1%",
+      "ICU",
+      "2%",
+      "Sum Insured",
+      "Plan A"
+    ],
+    "success": false,
+    "status_code": 200
+  },
+  {
+    "question": "What is the waiting period for pre-existing diseases?",
+    "answer": "There is a waiting period of thirty-six (36) months of continuous coverage from the first policy inception for pre-existing diseases and their direct complications to be covered.",
+    "processing_time": 3.706029176712036,
+    "api_processing_time": 3.33807635307312,
+    "keywords_found": [
+      "waiting period",
+      "pre-existing diseases",
+      "continuous coverage"
+    ],
+    "keywords_missing": [
+      "36 months"
+    ],
+    "success": false,
+    "status_code": 200
+  },
+  {
+    "question": "Are health check-up benefits covered?",
+    "answer": "According to the document: 18",
+    "processing_time": 3.6950085163116455,
+    "api_processing_time": 3.3821659088134766,
+    "keywords_found": [],
+    "keywords_missing": [
+      "health check-up",
+      "two continuous policy years",
+      "renewed",
+      "Table of Benefits"
+    ],
+    "success": false,
+    "status_code": 200
+  }
+]

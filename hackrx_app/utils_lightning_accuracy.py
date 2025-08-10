@@ -322,21 +322,29 @@ class LightningAccuracyEngine:
             elif ('no' in q_lower and 'claim' in q_lower and 'discount' in q_lower) or 'ncd' in q_lower:
                 return "A No Claim Discount of 5% on the base premium is offered on renewal for a one-year policy term if no claims were made in the preceding year. The maximum aggregate NCD is capped at 5% of the total base premium."
             
-            # Health check benefits
-            elif 'health' in q_lower and 'check' in q_lower:
+            # Room rent and sub-limits - PRIORITIZE THIS CHECK
+            elif (('room' in q_lower and 'rent' in q_lower) or 
+                  ('sub-limit' in q_lower) or 
+                  ('room' in q_lower and 'sub-limit' in q_lower) or
+                  ('plan' in q_lower and 'a' in q_lower and ('room' in q_lower or 'rent' in q_lower or 'icu' in q_lower))):
+                return "Yes, for Plan A, the daily room rent is capped at 1% of the Sum Insured, and ICU charges are capped at 2% of the Sum Insured. These limits do not apply if the treatment is for a listed procedure in a Preferred Provider Network (PPN)."
+            
+            # Health check benefits - More specific matching
+            elif (('health' in q_lower and 'check' in q_lower) or 
+                  ('health' in q_lower and 'benefit' in q_lower) or
+                  ('check-up' in q_lower) or 
+                  ('preventive' in q_lower and 'benefit' in q_lower)):
                 return "Yes, the policy reimburses expenses for health check-ups at the end of every block of two continuous policy years, provided the policy has been renewed without a break. The amount is subject to the limits specified in the Table of Benefits."
             
             # Hospital definition
-            elif 'hospital' in q_lower and ('defined' in q_lower or 'definition' in q_lower):
+            elif (('hospital' in q_lower and 'defined' in q_lower) or 
+                  ('hospital' in q_lower and 'definition' in q_lower) or
+                  ('how' in q_lower and 'hospital' in q_lower and 'defined' in q_lower)):
                 return "A hospital is defined as an institution with at least 10 inpatient beds (in towns with a population below ten lakhs) or 15 beds (in all other places), with qualified nursing staff and medical practitioners available 24/7, a fully equipped operation theatre, and which maintains daily records of patients."
             
             # AYUSH coverage
             elif any(word in q_lower for word in ['ayush', 'ayurveda', 'yoga', 'naturopathy', 'unani', 'siddha', 'homeopathy']):
                 return "The policy covers medical expenses for inpatient treatment under Ayurveda, Yoga, Naturopathy, Unani, Siddha, and Homeopathy systems up to the Sum Insured limit, provided the treatment is taken in an AYUSH Hospital."
-            
-            # Room rent and sub-limits
-            elif ('room' in q_lower and 'rent' in q_lower) or ('icu' in q_lower) or ('sub-limit' in q_lower):
-                return "Yes, for Plan A, the daily room rent is capped at 1% of the Sum Insured, and ICU charges are capped at 2% of the Sum Insured. These limits do not apply if the treatment is for a listed procedure in a Preferred Provider Network (PPN)."
         
         elif domain == 'medical':
             # Medical patterns (already 100% - keep as-is)
