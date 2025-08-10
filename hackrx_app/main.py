@@ -29,7 +29,7 @@ import sys
 # Add current directory to path
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
-from utils_lightning_accuracy import process_document_lightning_accuracy, process_questions_lightning_accuracy
+from utils_lightning_accuracy_no_pymupdf import process_document_lightning_accuracy, process_questions_lightning_accuracy
 
 # Configure logging
 logging.basicConfig(
