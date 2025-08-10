@@ -191,7 +191,7 @@ class LightningAccuracyEngine:
         q_lower = question.lower()
         
         # Quick keyword-based classification - order matters for priority
-        if any(word in q_lower for word in ['policy', 'premium', 'grace', 'waiting', 'maternity', 'claim', 'discount', 'hospital', 'ayush', 'donor', 'mediclaim', 'coverage', 'insured']):
+        if any(word in q_lower for word in ['policy', 'premium', 'grace', 'waiting', 'maternity', 'claim', 'discount', 'hospital', 'ayush', 'donor', 'mediclaim', 'coverage', 'insured', 'room', 'rent', 'icu', 'sub-limits', 'sub-limit', 'health', 'check-up', 'check', 'plan']):
             return 'insurance'
         elif any(word in q_lower for word in ['enrollment', 'students', 'professors', 'campus', 'education', 'grants', 'partnerships', 'universities', 'modernization']):
             return 'educational'
